@@ -10,38 +10,80 @@
     <div class="container">
         <h1>Rock Paper Scissors</h1>
         
-        <div class="score-board">
-            <div class="score">
-                <p>Player</p>
-                <span id="player-score">0</span>
+        <!-- Mode Selection -->
+        <div id="mode-selection" class="mode-selection">
+            <h2>Choose Game Mode</h2>
+            <div class="mode-buttons">
+                <button class="mode-btn" id="single-player-btn">
+                    <span>🤖</span>
+                    <p>Play vs Computer</p>
+                </button>
+                <button class="mode-btn" id="multiplayer-btn">
+                    <span>👥</span>
+                    <p>Play vs Friend</p>
+                </button>
             </div>
-            <div class="score">
-                <p>Computer</p>
-                <span id="computer-score">0</span>
+        </div>
+
+        <!-- Multiplayer Setup -->
+        <div id="multiplayer-setup" class="multiplayer-setup" style="display: none;">
+            <h2>Multiplayer Setup</h2>
+            <div class="setup-form">
+                <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+                <div class="setup-buttons">
+                    <button class="setup-btn" id="create-room-btn">Create Room</button>
+                    <button class="setup-btn" id="join-room-btn">Join Room</button>
+                </div>
+                <div id="room-code-input" style="display: none;">
+                    <input type="text" id="room-code" placeholder="Enter room code" maxlength="6">
+                    <button class="setup-btn" id="join-btn">Join</button>
+                </div>
+                <div id="room-info" style="display: none;">
+                    <p>Room Code: <strong id="room-code-display"></strong></p>
+                    <p id="waiting-message">Waiting for opponent...</p>
+                </div>
+                <button class="back-btn" id="back-to-mode">Back</button>
             </div>
         </div>
 
-        <div class="choices">
-            <button class="choice" id="rock" data-choice="rock">
-                <span>✊</span>
-                <p>Rock</p>
-            </button>
-            <button class="choice" id="paper" data-choice="paper">
-                <span>✋</span>
-                <p>Paper</p>
-            </button>
-            <button class="choice" id="scissors" data-choice="scissors">
-                <span>✌️</span>
-                <p>Scissors</p>
-            </button>
-        </div>
+        <!-- Game Area -->
+        <div id="game-area" style="display: none;">
+            <div id="connection-status" class="connection-status"></div>
+            
+            <div class="score-board">
+                <div class="score">
+                    <p id="player1-label">Player</p>
+                    <span id="player-score">0</span>
+                </div>
+                <div class="score">
+                    <p id="player2-label">Computer</p>
+                    <span id="computer-score">0</span>
+                </div>
+            </div>
 
-        <div class="result-container">
-            <p id="result-message">Make your choice!</p>
-            <div id="choices-display" class="choices-display"></div>
-        </div>
+            <div class="choices">
+                <button class="choice" id="rock" data-choice="rock">
+                    <span>✊</span>
+                    <p>Rock</p>
+                </button>
+                <button class="choice" id="paper" data-choice="paper">
+                    <span>✋</span>
+                    <p>Paper</p>
+                </button>
+                <button class="choice" id="scissors" data-choice="scissors">
+                    <span>✌️</span>
+                    <p>Scissors</p>
+                </button>
+            </div>
 
-        <button id="reset" class="reset-btn">Reset Game</button>
+            <div class="result-container">
+                <p id="result-message">Make your choice!</p>
+                <div id="choices-display" class="choices-display"></div>
+            </div>
+
+            <button id="reset" class="reset-btn">Reset Game</button>
+            <button id="back-to-menu" class="back-btn">Back to Menu</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
