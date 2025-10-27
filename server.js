@@ -1,6 +1,7 @@
 const express = require('express');
 const { WebSocketServer } = require('ws');
 const path = require('path');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,9 +20,9 @@ const wss = new WebSocketServer({ server });
 // Game rooms storage
 const rooms = new Map();
 
-// Generate random room code
+// Generate random room code using cryptographically secure random bytes
 function generateRoomCode() {
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
+    return crypto.randomBytes(3).toString('hex').toUpperCase();
 }
 
 // WebSocket connection handler
@@ -44,7 +45,46 @@ wss.on('connection', (ws) => {
 });
 
 function handleMessage(ws, data) {
+    // Validate message structure
+    if (!data || typeof data !== 'object' || !data.type) {
+        ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Invalid message format'
+        }));
+        return;
+    }
+    
     const { type, roomCode, playerName, choice } = data;
+    
+    // Validate player name
+    if ((type === 'create_room' || type === 'join_room') && 
+        (!playerName || typeof playerName !== 'string' || playerName.length > 20)) {
+        ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Invalid player name'
+        }));
+        return;
+    }
+    
+    // Validate room code
+    if ((type === 'join_room' || type === 'make_choice') && 
+        (!roomCode || typeof roomCode !== 'string' || roomCode.length > 10)) {
+        ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Invalid room code'
+        }));
+        return;
+    }
+    
+    // Validate choice
+    if (type === 'make_choice' && 
+        (!choice || !['rock', 'paper', 'scissors'].includes(choice))) {
+        ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Invalid choice'
+        }));
+        return;
+    }
     
     switch (type) {
         case 'create_room':
