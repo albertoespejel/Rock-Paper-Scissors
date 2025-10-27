@@ -30,6 +30,158 @@ h1 {
     font-size: 2.5em;
 }
 
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+/* Mode Selection */
+.mode-selection {
+    padding: 20px 0;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mode-btn {
+    background: white;
+    border: 3px solid #667eea;
+    border-radius: 15px;
+    padding: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.mode-btn:hover {
+    background: #667eea;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.mode-btn span {
+    font-size: 3em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.mode-btn p {
+    color: #333;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.mode-btn:hover p {
+    color: white;
+}
+
+/* Multiplayer Setup */
+.multiplayer-setup {
+    padding: 20px 0;
+}
+
+.setup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.setup-form input {
+    padding: 12px 20px;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.setup-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.setup-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.setup-btn:hover {
+    background: #764ba2;
+    transform: scale(1.05);
+}
+
+#room-info {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+#room-info p {
+    margin: 10px 0;
+    color: #333;
+}
+
+#room-code-display {
+    font-size: 1.5em;
+    color: #667eea;
+    letter-spacing: 2px;
+}
+
+.back-btn {
+    background: #999;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.back-btn:hover {
+    background: #777;
+}
+
+/* Connection Status */
+.connection-status {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.connection-status.connected {
+    background: #4caf50;
+    color: white;
+}
+
+.connection-status.disconnected {
+    background: #f44336;
+    color: white;
+}
+
+.connection-status.error {
+    background: #ff9800;
+    color: white;
+}
+
 .score-board {
     display: flex;
     justify-content: space-around;
@@ -100,6 +252,10 @@ h1 {
     color: white;
 }
 
+.choice:disabled {
+    cursor: not-allowed;
+}
+
 .result-container {
     margin-bottom: 30px;
     min-height: 100px;
@@ -144,6 +300,7 @@ h1 {
     font-size: 1.1em;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin: 5px;
 }
 
 .reset-btn:hover {
@@ -168,6 +325,10 @@ h1 {
         font-size: 2em;
     }
     
+    h2 {
+        font-size: 1.5em;
+    }
+    
     .choice {
         min-width: 100px;
         padding: 15px;
@@ -175,5 +336,22 @@ h1 {
     
     .choice span {
         font-size: 2.5em;
+    }
+    
+    .mode-btn {
+        min-width: 150px;
+        padding: 20px;
+    }
+    
+    .mode-btn span {
+        font-size: 2.5em;
+    }
+    
+    .choices-display {
+        gap: 15px;
+    }
+    
+    .choice-item span {
+        font-size: 2em;
     }
 }
