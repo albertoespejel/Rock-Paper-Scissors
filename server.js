@@ -58,7 +58,8 @@ function handleMessage(ws, data) {
     
     // Validate player name
     if ((type === 'create_room' || type === 'join_room') && 
-        (!playerName || typeof playerName !== 'string' || playerName.length > 20)) {
+        (!playerName || typeof playerName !== 'string' || 
+         playerName.trim().length === 0 || playerName.trim().length > 20)) {
         ws.send(JSON.stringify({
             type: 'error',
             message: 'Invalid player name'
@@ -66,9 +67,9 @@ function handleMessage(ws, data) {
         return;
     }
     
-    // Validate room code
+    // Validate room code (must be exactly 6 characters for hex room codes)
     if ((type === 'join_room' || type === 'make_choice') && 
-        (!roomCode || typeof roomCode !== 'string' || roomCode.length > 10)) {
+        (!roomCode || typeof roomCode !== 'string' || roomCode.length !== 6)) {
         ws.send(JSON.stringify({
             type: 'error',
             message: 'Invalid room code'
@@ -169,9 +170,15 @@ function handleChoice(ws, roomCode, choice) {
     }
     
     const player = room.players.find(p => p.ws === ws);
-    if (player) {
-        player.choice = choice;
+    if (!player) {
+        ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Player not found in room'
+        }));
+        return;
     }
+    
+    player.choice = choice;
     
     // Check if both players have made their choices
     if (room.players.every(p => p.choice !== null)) {
