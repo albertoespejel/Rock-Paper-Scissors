@@ -57,24 +57,35 @@ function handleMessage(ws, data) {
     const { type, roomCode, playerName, choice } = data;
     
     // Validate player name
-    if ((type === 'create_room' || type === 'join_room') && 
-        (!playerName || typeof playerName !== 'string' || 
-         playerName.trim().length === 0 || playerName.trim().length > 20)) {
-        ws.send(JSON.stringify({
-            type: 'error',
-            message: 'Invalid player name'
-        }));
-        return;
+    if (type === 'create_room' || type === 'join_room') {
+        if (!playerName || typeof playerName !== 'string') {
+            ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Invalid player name'
+            }));
+            return;
+        }
+        
+        const trimmedName = playerName.trim();
+        if (trimmedName.length === 0 || trimmedName.length > 20) {
+            ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Player name must be 1-20 characters'
+            }));
+            return;
+        }
     }
     
-    // Validate room code (must be exactly 6 characters for hex room codes)
-    if ((type === 'join_room' || type === 'make_choice') && 
-        (!roomCode || typeof roomCode !== 'string' || roomCode.length !== 6)) {
-        ws.send(JSON.stringify({
-            type: 'error',
-            message: 'Invalid room code'
-        }));
-        return;
+    // Validate room code (must be exactly 6 hex characters)
+    if (type === 'join_room' || type === 'make_choice') {
+        if (!roomCode || typeof roomCode !== 'string' || 
+            roomCode.length !== 6 || !/^[A-F0-9]{6}$/i.test(roomCode)) {
+            ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Invalid room code format'
+            }));
+            return;
+        }
     }
     
     // Validate choice
@@ -89,13 +100,13 @@ function handleMessage(ws, data) {
     
     switch (type) {
         case 'create_room':
-            createRoom(ws, playerName);
+            createRoom(ws, playerName.trim());
             break;
         case 'join_room':
-            joinRoom(ws, roomCode, playerName);
+            joinRoom(ws, roomCode.toUpperCase(), playerName.trim());
             break;
         case 'make_choice':
-            handleChoice(ws, roomCode, choice);
+            handleChoice(ws, roomCode.toUpperCase(), choice);
             break;
     }
 }
